@@ -1,0 +1,4 @@
+github.com/toastsandwich/error v0.0.1 h1:/lzdu4NV7csQTW2G/qZYSgdichWCCQTKLob+ehkAHOQ=
+github.com/toastsandwich/error v0.0.1/go.mod h1:e79ObVmFvvQHYtYkUe5G1u9XwP3sf2RsoAgmtaIgr5o=
+github.com/toastsandwich/terror v0.0.3 h1:kL6a5Lrlv7c5fOClgjT3IM+K2pxWKm9KAdcZ1DBfq8A=
+github.com/toastsandwich/terror v0.0.3/go.mod h1:W80bMao/U1bra7juFLpJMwECOEVGD1KtCQ5jqBme0sY=
