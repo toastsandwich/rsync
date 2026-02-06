@@ -8,9 +8,14 @@ import (
 	"github.com/toastsandwich/terror"
 )
 
-func Rsync(args []string) {
-	exitIf(len(args) != 2, "usage: rsync <src> <dst>")
-	src, dst := args[0], args[1]
+type Option struct {
+	Args     []string
+	Password string
+}
+
+func Rsync(opts Option) {
+	exitIf(len(opts.Args) != 2, "usage: rsync <src> <dst>")
+	src, dst := opts.Args[0], opts.Args[1]
 
 	srcF, err := os.Open(src)
 	fatalIf(terror.Wrap(err, "open source file"))

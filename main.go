@@ -2,11 +2,10 @@
 package main
 
 import (
-	"os"
-
-	"github.com/toastsandwich/rsync/rsync"
+	"github.com/toastsandwich/rsync/cmd"
 )
 
 func main() {
-	rsync.Rsync(os.Args[1:])
+	// rsync.Rsync(os.Args[1:])
+	cmd.Root()
 }
