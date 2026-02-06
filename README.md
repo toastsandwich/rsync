@@ -9,3 +9,8 @@ rsync, syncs two files on local machine.
 - If
   1. Blocks differ, swap Destination Block with Source Block
   2. If Destination Block is missing append Source Block
+
+
+
+# Contributions
+All contributions and features are welcome
