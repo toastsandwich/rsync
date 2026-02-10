@@ -11,14 +11,14 @@ import (
 
 type SetConfigOptions struct {
 	Alias    string
-	Hostname string
+	Host     string
 	Username string
 	Password string
 }
 
 type Config struct {
 	Alias    string `json:"-"`
-	Hostname string `json:"hostname"`
+	Host     string `json:"hostname"`
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
@@ -29,7 +29,7 @@ func (c *Config) String() string {
 host: %s
 username: %s
 password: 
-`, c.Alias, c.Hostname, c.Username)
+`, c.Alias, c.Host, c.Username)
 }
 
 func SetConfig(o SetConfigOptions) error {
@@ -49,7 +49,7 @@ func SetConfig(o SetConfigOptions) error {
 	config := Config{
 		Alias:    o.Alias,
 		Username: o.Username,
-		Hostname: o.Hostname,
+		Host:     o.Host,
 		Password: o.Password,
 	}
 

@@ -7,13 +7,16 @@ import (
 
 const path = ".rsync/config.json"
 
-func ConfigPath() (fullpath string, dir string, err error) {
-	var home string
-	home, err = os.UserHomeDir()
+func HomeDir() string {
+	home, err := os.UserHomeDir()
 	if err != nil {
-		return "", "", err
+		panic(err)
 	}
-	fullpath = filepath.Join(home, path)
+	return home
+}
+
+func ConfigPath() (fullpath string, dir string, err error) {
+	fullpath = filepath.Join(HomeDir(), path)
 	dir = filepath.Dir(fullpath)
 	return
 }
