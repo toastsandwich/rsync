@@ -11,15 +11,17 @@ import (
 // rsync host:home/toastsandwich/src.txt ./src.txt -p <password>
 // rsync config set <host> <username> <password>
 var (
-	rootCmd = cobra.Command{
+	rootCmd = &cobra.Command{
 		Use:   "rsync",
 		Short: "rsync will synchronise",
+		Args:  cobra.ExactArgs(2),
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("Hello from rsync")
-			rsync.Rsync(rsync.Option{
-				Args: args,
-			})
-
+			err := rsync.Rsync(args[0], args[1])
+			if err != nil {
+				fmt.Println(err)
+				fmt.Println(err.Trace())
+				return
+			}
 		},
 	}
 

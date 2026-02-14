@@ -46,7 +46,7 @@ func execSetConfig(cmd *cobra.Command, args []string) error {
 
 	return rsync.SetConfig(rsync.SetConfigOptions{
 		Alias:    alias,
-		Hostname: host,
+		Host:     host,
 		Username: user,
 		Password: pass,
 	})

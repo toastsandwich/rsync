@@ -12,7 +12,13 @@ import (
 	"golang.org/x/crypto/ssh/knownhosts"
 )
 
-func Conn(c Config) (ssh.Conn, error) {
+func RemoteConn(alias string) (*ssh.Client, *terr.TracedError) {
+	var tracedErr *terr.TracedError
+	c, tracedErr := GetConfig(alias)
+	if tracedErr != nil {
+		return nil, tracedErr
+	}
+
 	var knownhostFile = utils.HomeDir() + "/.ssh/known_hosts"
 	knownHosts, err := knownhosts.New(knownhostFile)
 

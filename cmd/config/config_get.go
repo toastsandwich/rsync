@@ -19,6 +19,14 @@ func GetConfigCmd() *cobra.Command {
 }
 
 func execGetConfig(cmd *cobra.Command, args []string) error {
+	all, err := cmd.Flags().GetBool("all")
+	if err != nil {
+		return err
+	}
+	if all {
+		return execGetAllConfig()
+	}
+
 	if len(args) != 1 {
 		return terr.Newf("alias not provided. use rsync config -h")
 	}
@@ -28,5 +36,16 @@ func execGetConfig(cmd *cobra.Command, args []string) error {
 		return err
 	}
 	fmt.Println(conf.String())
+	return nil
+}
+
+func execGetAllConfig() error {
+	confs, err := rsync.GetAllConfig()
+	if err != nil {
+		return err
+	}
+	for _, conf := range confs {
+		fmt.Println(conf.String())
+	}
 	return nil
 }

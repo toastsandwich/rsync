@@ -68,7 +68,7 @@ func SetConfig(o SetConfigOptions) error {
 	return nil
 }
 
-func GetConfig(alias string) (Config, error) {
+func GetConfig(alias string) (Config, *terr.TracedError) {
 	f, err := utils.OpenConfig()
 	if err != nil {
 		return Config{}, terr.Wrap(err, OPEN_CONFIG_ERR_MSG)
@@ -83,14 +83,54 @@ func GetConfig(alias string) (Config, error) {
 		config.Alias = alias
 		return config, nil
 	}
+
 	return Config{}, terr.Newf("config missing for %s", alias)
+
 }
 
-// func RemoveConfig(alias string) error {
-// 	f, err := utils.OpenConfig()
-// 	if err != nil {
-// 		return terr.Wrap(err, OPEN_CONFIG_ERR_MSG)
-// 	}
-// 	defer f.Close()
-// 	 	delete()
-// }
+func GetAllConfig() ([]Config, error) {
+	f, err := utils.OpenConfig()
+	if err != nil {
+		return nil, terr.Wrap(err, OPEN_CONFIG_ERR_MSG)
+	}
+	defer f.Close()
+
+	configs := make(map[string]Config)
+	if err := json.NewDecoder(f).Decode(&configs); err != nil {
+		return nil, terr.Wrap(err, "deconfig configs")
+	}
+
+	confs := []Config{}
+	for alias, config := range configs {
+		config.Alias = alias
+		confs = append(confs, config)
+	}
+
+	return confs, nil
+}
+
+func RemoveConfig(alias string) error {
+	f, err := utils.OpenConfig()
+	if err != nil {
+		return terr.Wrap(err, OPEN_CONFIG_ERR_MSG)
+	}
+	defer f.Close()
+
+	configs := make(map[string]Config)
+	if err := json.NewDecoder(f).Decode(&configs); err != nil {
+		return terr.Wrap(err, "decoding config")
+	}
+	delete(configs, alias)
+
+	p, err := json.Marshal(&configs)
+	if err != nil {
+		return terr.Wrap(err, "marshal error")
+	}
+
+	f.Seek(0, 0)
+	_, err = f.Write(p)
+	if err != nil {
+		return terr.Wrap(err, "writing to config file")
+	}
+	return nil
+}
